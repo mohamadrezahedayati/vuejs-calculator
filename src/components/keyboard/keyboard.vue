@@ -1,16 +1,20 @@
 <template>
     <div class="containerKeyboard">
-        <ul class="keyOprator">
-            <li class="oprator" v-on:click="pushOprator($event)">+</li>
-            <li class="oprator" v-on:click="pushOprator($event)">-</li>
-            <li class="oprator" v-on:click="pushOprator($event)">%</li>
-            <li class="oprator" v-on:click="pushOprator($event)">x</li>
-            <li class="oprator" v-on:click="pushOprator($event)">c</li>
+        <ul class="keyOperand">
+            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">+</li>
+            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">-</li>
+            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">/</li>
+            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">*</li>
+            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">c</li>
         </ul>
         <ul class="keyNumber">
             <li class="number" v-for="i in 10" v-model="numbers" @click="pushNumber(i)">
                 {{i-1}}
             </li>
+        </ul>
+        <ul class="keyNumber">
+            <li class="equal" v-on:click="pushOperand($event.target.innerHTML)">=</li>
+            <li class="point" v-on:click="pushOperand($event.target.innerHTML)">.</li>
         </ul>
     </div>
 </template>
@@ -26,21 +30,30 @@ export default {
         }
     },
     methods:{
-        pushNumber(val){
-            this.numbers = (this.numbers.toString(16)).concat((val-1).toString(16));
-            console.log(this.numbers)
-            RelationComponents.$emit('getNumber',this.numbers)
-        },
-        pushOprator(el){
-            console.log(el.target);
+        pushOperand(el){
+            if(el == 'c'){
+                this.numbers = '';
+                RelationComponents.$emit('getNumber',this.numbers)
+            }else if(el == '='){
+                this.numbers = eval(this.numbers);
+                RelationComponents.$emit('getNumber',this.numbers)                
             }
+            else{
+                this.numbers+=el
+                RelationComponents.$emit('getNumber',this.numbers)
+            }
+        },
+        pushNumber(val){
+            this.numbers = (this.numbers.toString()).concat((val-1).toString());
+            RelationComponents.$emit('getNumber',this.numbers)
+            },
         }
     }
 
 </script>
 
 <style scoped>
-.keyOprator,.keyNumber{
+.keyOperand,.keyNumber{
     display: flex;
     list-style-type: none;
     flex-wrap: wrap;
@@ -49,7 +62,7 @@ export default {
 .containerKeyboard{
     width: 100%;
 }
-.oprator,.number{
+.point,.equal,.operand,.number{
     text-align: center;
     height: 65px;
     font-size: 45px;
@@ -63,5 +76,8 @@ export default {
     border-radius: 2px;
     line-height: 65px;
     text-shadow: 0px 0px 4px #fcf7f7d6;
+}
+.equal{
+    width: 382px;
 }
 </style>

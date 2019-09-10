@@ -2,6 +2,10 @@
     <div class="containerMonitor">
         <div>
             <h2 class="monitor" v-text="showMonitor"></h2>
+            <h4 class="preview">
+                <span>preview : </span>
+                <span v-text="previewShowMonitor"></span>
+            </h4>
         </div>
     </div>
 </template>
@@ -13,12 +17,14 @@ import { RelationComponents } from '../../main.js';
 export default {
     data() {
         return {
-            showMonitor:''
+            showMonitor:'',
+            previewShowMonitor:''
         }
     },
     mounted() { 
         RelationComponents.$on('getNumber',(data)=>{
             this.showMonitor = data;
+            this.previewShowMonitor = eval(data);
         })
     },
     
@@ -39,5 +45,9 @@ export default {
 }
 .containerMonitor{
     width: 100%;
+}
+.preview{
+    color: white;
+    margin: 10px 25px;
 }
 </style>
