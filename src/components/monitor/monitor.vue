@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-.monitor{   
+.monitor{
     margin: 0;
     padding: 20px;
     font-size: 2.2rem;

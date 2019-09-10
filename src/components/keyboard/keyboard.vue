@@ -8,12 +8,13 @@
             <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">c</li>
         </ul>
         <ul class="keyNumber">
-            <li class="number" v-for="i in 10" v-model="numbers" @click="pushNumber(i)">
+            <li class="number" v-model="numbers" v-for="i in 10" @click="pushNumber(i)">
                 {{i-1}}
             </li>
         </ul>
         <ul class="keyNumber">
             <li class="equal" v-on:click="pushOperand($event.target.innerHTML)">=</li>
+            <li class="point" v-on:click="pushOperand($event.target.innerHTML)">⌫</li>
             <li class="point" v-on:click="pushOperand($event.target.innerHTML)">.</li>
         </ul>
     </div>
@@ -36,9 +37,11 @@ export default {
                 RelationComponents.$emit('getNumber',this.numbers)
             }else if(el == '='){
                 this.numbers = eval(this.numbers);
+                RelationComponents.$emit('getNumber',this.numbers)           
+            }else if(el == '⌫'){
+                this.numbers = this.numbers.slice(0, -1);
                 RelationComponents.$emit('getNumber',this.numbers)                
-            }
-            else{
+            }else{
                 this.numbers+=el
                 RelationComponents.$emit('getNumber',this.numbers)
             }
@@ -54,6 +57,7 @@ export default {
 
 <style scoped>
 .keyOperand,.keyNumber{
+    user-select: none;
     display: flex;
     list-style-type: none;
     flex-wrap: wrap;
@@ -63,6 +67,7 @@ export default {
     width: 100%;
 }
 .point,.equal,.operand,.number{
+    user-select: none;
     text-align: center;
     height: 65px;
     font-size: 45px;
@@ -78,6 +83,6 @@ export default {
     text-shadow: 0px 0px 4px #fcf7f7d6;
 }
 .equal{
-    width: 382px;
+    width: 277px;
 }
 </style>

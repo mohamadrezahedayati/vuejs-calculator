@@ -25,6 +25,7 @@ export default {
 
 <style>
 .cal{
+    background:linear-gradient(0deg, #540355 ,#4e014f );
     display: flex;
     justify-content: center;
     align-content: center;
