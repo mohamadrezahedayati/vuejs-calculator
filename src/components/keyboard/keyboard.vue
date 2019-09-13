@@ -1,11 +1,11 @@
 <template>
     <div class="containerKeyboard">
         <ul class="keyOperand">
-            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">+</li>
-            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">-</li>
-            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">/</li>
-            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">*</li>
-            <li class="operand" v-on:click="pushOperand($event.target.innerHTML)">c</li>
+            <li class="operand" @click="pushOperand($event)">+</li>
+            <li class="operand" @click="pushOperand($event)">-</li>
+            <li class="operand" @click="pushOperand($event)">/</li>
+            <li class="operand" @click="pushOperand($event)">*</li>
+            <li class="operand" @click="pushOperand($event)">c</li>
         </ul>
         <ul class="keyNumber">
             <li class="number" v-model="numbers" v-for="i in 10" @click="pushNumber(i)">
@@ -13,15 +13,14 @@
             </li>
         </ul>
         <ul class="keyNumber">
-            <li class="equal" v-on:click="pushOperand($event.target.innerHTML)">=</li>
-            <li class="point" v-on:click="pushOperand($event.target.innerHTML)">⌫</li>
-            <li class="point" v-on:click="pushOperand($event.target.innerHTML)">.</li>
+            <li class="equal" @click="pushOperand($event)">=</li>
+            <li class="point" @click="pushOperand($event)">⌫</li>
+            <li class="point" @click="pushOperand($event)">.</li>
         </ul>
     </div>
 </template>
 
 <script>
-
 import { RelationComponents } from '../../main.js';
 
 export default {
@@ -32,17 +31,17 @@ export default {
     },
     methods:{
         pushOperand(el){
-            if(el == 'c'){
+            if(el.target.innerHTML == 'c'){
                 this.numbers = '';
                 RelationComponents.$emit('getNumber',this.numbers)
-            }else if(el == '='){
+            }else if(el.target.innerHTML == '='){
                 this.numbers = eval(this.numbers);
                 RelationComponents.$emit('getNumber',this.numbers)           
-            }else if(el == '⌫'){
+            }else if(el.target.innerHTML == '⌫'){
                 this.numbers = this.numbers.slice(0, -1);
                 RelationComponents.$emit('getNumber',this.numbers)                
             }else{
-                this.numbers+=el
+                this.numbers+=el.target.innerHTML
                 RelationComponents.$emit('getNumber',this.numbers)
             }
         },
@@ -50,8 +49,33 @@ export default {
             this.numbers = (this.numbers.toString()).concat((val-1).toString());
             RelationComponents.$emit('getNumber',this.numbers)
             },
-        }
+        },
+        created() {
+            document.addEventListener("keydown", funLog => {
+                console.log(event)
+                if(this.numbers != ''){
+                    if(event.keyCode == 13){
+                        this.numbers = eval(this.numbers);
+                        RelationComponents.$emit('getNumber',this.numbers) 
+                    }else if(event.keyCode == 8){
+                        this.numbers = this.numbers.slice(0, -1);
+                        RelationComponents.$emit('getNumber',this.numbers)   
+                    }else if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || (event.keyCode == 187 || event.keyCode == 107 || event.keyCode == 189)){
+                        if(event.key != '='){
+                            this.numbers+=event.key
+                            RelationComponents.$emit('getNumber',this.numbers)
+                        }
+                    }
+                }else{
+                    if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)){
+                        this.numbers+=event.key
+                        RelationComponents.$emit('getNumber',this.numbers)
+                    }
+                }
+            });  
+        },
     }
+
 
 </script>
 

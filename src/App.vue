@@ -4,6 +4,7 @@
             <monitor></monitor>
             <keyboard></keyboard>
        </div>
+        <showHistory></showHistory>
     </div>
 </template>
 
@@ -11,6 +12,7 @@
 
 import keyboard from './components/keyboard/keyboard.vue'
 import monitor from './components/monitor/monitor.vue'
+import showHistory from './components/history/showHistory.vue'
 
 export default {
     name: 'App',
@@ -19,11 +21,14 @@ export default {
             
         }
     },
-    components:{keyboard,monitor}
+    components:{keyboard,monitor,showHistory}
 }
 </script>
 
 <style>
+#app{
+    position: relative;
+}
 .cal{
     background:linear-gradient(0deg, #540355 ,#4e014f );
     display: flex;
