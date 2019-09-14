@@ -36,7 +36,8 @@ export default {
                 RelationComponents.$emit('getNumber',this.numbers)
             }else if(el.target.innerHTML == '='){
                 this.numbers = eval(this.numbers);
-                RelationComponents.$emit('getNumber',this.numbers)           
+                RelationComponents.$emit('getNumber',this.numbers)
+                RelationComponents.$emit('submitExp',this.numbers);
             }else if(el.target.innerHTML == '⌫'){
                 this.numbers = this.numbers.slice(0, -1);
                 RelationComponents.$emit('getNumber',this.numbers)                
@@ -56,7 +57,8 @@ export default {
                 if(this.numbers != ''){
                     if(event.keyCode == 13){
                         this.numbers = eval(this.numbers);
-                        RelationComponents.$emit('getNumber',this.numbers) 
+                        RelationComponents.$emit('getNumber',this.numbers)
+                        RelationComponents.$emit('submitExp',this.numbers);
                     }else if(event.keyCode == 8){
                         this.numbers = this.numbers.slice(0, -1);
                         RelationComponents.$emit('getNumber',this.numbers)   

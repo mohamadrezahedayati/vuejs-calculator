@@ -21,7 +21,7 @@ export default {
             previewShowMonitor:''
         }
     },
-    mounted() { 
+    mounted(){
         RelationComponents.$on('getNumber',(data)=>{
             this.showMonitor = data;
             this.previewShowMonitor = eval(data);

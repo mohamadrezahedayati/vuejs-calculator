@@ -28,6 +28,9 @@ export default {
 <style>
 #app{
     position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 }
 .cal{
     background:linear-gradient(0deg, #540355 ,#4e014f );
